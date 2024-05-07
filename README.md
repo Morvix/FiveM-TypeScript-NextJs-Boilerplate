@@ -1,31 +1,51 @@
-# FiveM-TypeScript-NextJs-Bolierplate
-## This is a new FiveM NextJs Boilerplate, this Bolierplate can hold Multiple Ui in it and can new integrated to different scripts using below snippets
-1. exports["FiveM-TypeScript-NextJs-Boilerplate"].SendNuiMessage(action, data) : SendNuiMessage will not work with this Bolieplate as this is a whole standalone UI handler you need to use this exports
-2. exports["FiveM-TypeScript-NextJs-Boilerplate"].SetNuiFocus(true, true) : Same You have to use this exports
+# FiveM-TypeScript-NextJs-Boilerplate
 
-# Note : If you are using this Ui handler then instead of using RegisterNuiCallback you have to use my TriggerClientCallbacks i have displayed one Example :
+## Overview
+This is a new FiveM NextJs Boilerplate, which can manage multiple UIs and can be integrated into different scripts using the exports outlined below.
 
-  ```ui:```This Prefix is Very Important, so whenever you click of FetchNui it uses this Prefix For Example Event Name Should be ```ui:scriptname:Unique name``` like ```ui:multicharacter:selectCharacter``` and on UI side
-  ```fetchNui('multicharacter', 'selectCharacter', { id: selectIndex+1 })``` in fetchNui first Parameter Should be Script name and Second Parameter Should Be Unique Name and Third Parameter is For Data you want to send
-  
-```ts
+## Important Exports
+1. `exports["FiveM-TypeScript-NextJs-Boilerplate"].SendNuiMessage(action, data)`: Replace `SendNuiMessage` with this export as it is a standalone UI handler.
+2. `exports["FiveM-TypeScript-NextJs-Boilerplate"].SetNuiFocus(true, true)`: Use this export to set NUI focus.
+
+## Customizing NUI Callbacks
+Instead of using `RegisterNuiCallback`, use `TriggerClientCallbacks`. Below is an example to demonstrate usage:
+
+### Usage Example
+The prefix `ui:` is critical. For instance, the event name should be structured like `ui:scriptname:UniqueName`, such as `ui:multicharacter:selectCharacter`. On the UI side, use:
+
+```typescript
 Framework.Functions.CreateClientCallback('ui:multicharacter:selectCharacter', function (cb: any, data: any) {
-  // data is Varidable That Contains The Data Which Is Send From Nui
-            Cams.pointCameraToCharacter(data.id);
-            cb("OK");
+    // data contains the information sent from Nui
+    Cams.pointCameraToCharacter(data.id);
+    cb("OK");
 });
 ```
+
 ```lua
 Framework.Functions.CreateClientCallback('ui:multicharacter:selectCharacter', function (cb, data)
-
-    -- data is Varidable That Contains The Data Which Is Send From Nui
+    -- data contains the information sent from Nui
     print(json.encode(data))
     cb("Ok")
 end)
 ```
-# Note : debugData action is the script name and Rest is Same  and useNuiEvent contains the name of the script like multicharacter and while
-sending Nui Message using Lua or Ts you have to do like this: <br>```exports["FiveM-TypeScript-NextJs-Boilerplate"].SendNuiMessage(action, data)``` action will be script name and data is what you want to send <br>```exports["FiveM-TypeScript-NextJs-Boilerplate"].SendNuiMessage("multicharacter", { action: 'openCharacterSelection', data: false })```
-```tsx
+## Additional Information
+
+### Sending NUI Messages
+Use the following exports to send NUI messages. The `action` should be the script name, and `data` is the content you want to send.
+
+```js
+exports["FiveM-TypeScript-NextJs-Boilerplate"].SendNuiMessage(action, data)
+```
+
+Example:
+```js
+exports["FiveM-TypeScript-NextJs-Boilerplate"].SendNuiMessage("multicharacter", { action: 'openCharacterSelection', data: false })
+```
+
+### Handling NUI Events
+To handle NUI events, use the `debugData` and `useNuiEvent` as shown in the example below:
+
+```typescript
 debugData([
     {
         action: "multicharacter",
@@ -35,37 +55,40 @@ debugData([
         },
     },
 ]);
+
 useNuiEvent("multicharacter", (data: any) => {
-        console.log(JSON.stringify(data));
-        if (data.action === 'openCharacterSelection') {
-            setVisible(data.data);
-        }
+    console.log(JSON.stringify(data));
+    if (data.action === 'openCharacterSelection') {
+        setVisible(data.data);
+    }
 });
 ```
 
-#
 
-**Note : If you are taking on the Ui Folder and Integrating it to Seprate Scripts then you have to make Changes fetchNui Function In utils Folder**
- 1. Goto fetchNui.ts and replace it with below Function
-```ts
+### Modifying fetchNui
+If you are integrating the UI folder into separate scripts, you need to modify the `fetchNui` function in the `utils` folder as follows:
+
+```typescript
 export async function fetchNui<T = any>(eventName: string, data?: any, mockData?: T): Promise<T> {
-  const options = {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify(data),
-  };
+    const options = {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify(data),
+    };
 
-  if (isEnvBrowser() && mockData) return mockData;
+    if (isEnvBrowser() && mockData) return mockData;
 
-  const resourceName = (window as any).GetParentResourceName ? (window as any).GetParentResourceName() : 'nui-frame-app';
+    const resourceName = (window as any).GetParentResourceName ? (window as any).GetParentResourceName() : 'nui-frame-app';
 
-  const resp = await fetch(`https://${resourceName}/${eventName}`, options);
+    const resp = await fetch(`https://${resourceName}/${eventName}`, options);
 
-  const respFormatted = await resp.json()
+    const respFormatted = await resp.json();
 
-  return respFormatted
+    return respFormatted;
 }
 ```
-Need help then DM me : morvix.ts
+
+## Support
+For additional help, DM me: morvix.ts
