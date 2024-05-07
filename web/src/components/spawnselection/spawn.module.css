@@ -1,0 +1,14 @@
+.selectorBg {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../../app/assets/selectionbg.svg);
+}
+.hoverSpawnSe {
+  transition: all 0.3s linear;
+  
+}
+
+.hoverSpawnSe:hover {
+  transition: all 0.3s linear;
+  transform: scaleX(1.07);
+}

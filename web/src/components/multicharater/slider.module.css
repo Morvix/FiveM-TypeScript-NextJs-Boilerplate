@@ -1,0 +1,25 @@
+.root {
+  width: 9vw;
+  position: absolute;
+  top: 3.2vh;
+  left: 5vw;
+}
+.track::before{
+    background-color: rgba(255, 255, 255, 0.363) !important;
+}
+.track{
+    width: 14vh;
+    height: 0.3vh;
+}
+
+.bar{
+    background-color: #FF194C !important;
+}
+.thumb{
+    
+    background-color: #FF194C !important;
+    border: none;
+    border-radius: 0.2vw;
+    scale: 0.7;
+    margin-top: -0.27vh;
+}

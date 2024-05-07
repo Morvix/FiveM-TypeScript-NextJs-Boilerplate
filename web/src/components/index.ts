@@ -1,0 +1,1 @@
+export { default as CharacterSlect } from "./multicharater/test.store";

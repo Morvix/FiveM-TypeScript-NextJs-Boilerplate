@@ -1,0 +1,29 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mantine/core": "latest",
+    "@mantine/hooks": "latest",
+    "@reduxjs/toolkit": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-redux": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "postcss": "latest",
+    "postcss-preset-mantine": "latest",
+    "postcss-simple-vars": "latest",
+    "typescript": "latest"
+  }
+}
